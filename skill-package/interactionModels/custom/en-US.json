@@ -1,0 +1,83 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "slots": [],
+          "name": "HelloWorldIntent",
+          "samples": [
+            "hello",
+            "how are you",
+            "say hi world",
+            "say hi",
+            "hi",
+            "say hello world",
+            "say hello"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "slots": [],
+          "name": "nuke_it",
+          "samples": [
+            "nuke it"
+          ]
+        },
+        {
+          "slots": [
+            {
+              "name": "Positive_Aspect",
+              "type": "Positive_Aspect"
+            }
+          ],
+          "name": "ExplainNuclearBenefitIntent",
+          "samples": [
+            "blow my mind about {Positive_Aspect}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "energy efficienct"
+              }
+            },
+            {
+              "name": {
+                "value": "safety"
+              }
+            },
+            {
+              "name": {
+                "value": "emissions"
+              }
+            }
+          ],
+          "name": "Positive_Aspect"
+        }
+      ],
+      "invocationName": "nuke it"
+    }
+  }
+}
