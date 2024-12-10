@@ -1,12 +1,8 @@
-/* *
- * This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK (v2).
- * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
- * session persistence, api calls, and more.
- * */
+
 const Alexa = require('ask-sdk-core');
 const util = require('./util');
 const express = require('express');
-const { ExpressAdapter } = require('ask-sdk-express-adapter')
+const { ExpressAdapter } = require('ask-sdk-express-adapter');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -112,13 +108,13 @@ const CheckStatsIntentHandler = {
         handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
         const speakOutput = `You have used Atomic Energy ${sessionAttributes.usageCount} times. Keep it up!`;
-
+        
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt('What would you like to do next?')
             .getResponse();
     }
-};
+}; 
 
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
@@ -212,7 +208,7 @@ const ErrorHandler = {
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
  * defined are included below. The order matters - they're processed top to bottom 
  * */
-exports.handler = Alexa.SkillBuilders.custom()
+const skill = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
         HelpIntentHandler,
@@ -226,10 +222,12 @@ exports.handler = Alexa.SkillBuilders.custom()
         IntentReflectorHandler)
     .addErrorHandlers(
         ErrorHandler)
-    .create(); // Change .lambda() to .create()
-const adapter = new ExpressAdapter(skill, false, false);
-const app = express();
+    .withCustomUserAgent('sample/hello-world/v1.2')
+    .create();
 
-app.post('/', adapter.getRequestHandlers());
-app.use(express.static(__dirname + '/public'));
-app.listen(3022);
+    const adapter = new ExpressAdapter(skill, false, false);
+    const app = express();
+
+    app.post('/', adapter.getRequestHandlers());
+    app.use(express.static(__dirname + '/public'));
+    exports.app = app;

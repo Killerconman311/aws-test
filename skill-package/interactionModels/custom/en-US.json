@@ -15,32 +15,12 @@
           "samples": []
         },
         {
-          "slots": [],
-          "name": "HelloWorldIntent",
-          "samples": [
-            "hello",
-            "how are you",
-            "say hi world",
-            "say hi",
-            "hi",
-            "say hello world",
-            "say hello"
-          ]
-        },
-        {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
         },
         {
           "name": "AMAZON.FallbackIntent",
           "samples": []
-        },
-        {
-          "slots": [],
-          "name": "nuke_it",
-          "samples": [
-            "nuke it"
-          ]
         },
         {
           "slots": [
@@ -51,7 +31,31 @@
           ],
           "name": "ExplainNuclearBenefitIntent",
           "samples": [
+            "tell me about {Positive_Aspect}",
             "blow my mind about {Positive_Aspect}"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "ClimateClockIntent",
+          "samples": [
+            "tell me about the climate clock",
+            "What is the climate clock"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "MakeDifferenceIntent",
+          "samples": [
+            "How can I help",
+            "How can I make a difference"
+          ]
+        },
+        {
+          "slots": [],
+          "name": "CheckStatsIntent",
+          "samples": [
+            "How many times have I used this skill"
           ]
         }
       ],
@@ -60,7 +64,7 @@
           "values": [
             {
               "name": {
-                "value": "energy efficienct"
+                "value": "energy efficiency"
               }
             },
             {
@@ -77,7 +81,7 @@
           "name": "Positive_Aspect"
         }
       ],
-      "invocationName": "nuke it"
+      "invocationName": "atomic energy"
     }
   }
 }
