@@ -58,26 +58,25 @@ const ExplainNuclearBenefitIntentHandler = {
     handle(handlerInput) {
         // Retrieve the slot value
         const positiveAspect = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Positive_Aspect');
-        const speakOutput = "Time to blow your mind about " + positiveAspect;
+        let speakOutput = "Time to blow your mind about " + positiveAspect;
 
-        // let speakOutput;
 
-        // if (positiveAspect) {
-        //     // Custom responses based on the slot value
-        //     switch (positiveAspect.toLowerCase()) {
-        //         case 'safety':
-        //             speakOutput = 'Nuclear energy is one of the safest forms of energy production, with rigorous safety standards.';
-        //             break;
-        //         case 'emissions':
-        //             speakOutput = 'Nuclear power emits zero carbon emissions during operation, making it environmentally friendly.';
-        //             break;
-        //         // Add more cases as needed for other slot values
-        //         default:
-        //             speakOutput = `Here's what I know about ${positiveAspect}: [Insert your detailed response].`;
-        //     }
-        // } else {
-        //     speakOutput = "I'm not sure what aspect you'd like to know about. Could you tell me, like safety or emissions?";
-        // }
+         if (positiveAspect) {
+             // Custom responses based on the slot value
+             switch (positiveAspect.toLowerCase()) {
+                case 'safety':
+                     speakOutput = 'Nuclear energy is one of the safest forms of energy production, with rigorous safety standards.';
+                     break;
+                 case 'emissions':
+                     speakOutput = 'Nuclear power emits zero carbon emissions during operation, making it environmentally friendly.';
+                     break;
+                 // Add more cases as needed for other slot values
+                 default:
+                     speakOutput = `Here's what I know about ${positiveAspect}: [Insert your detailed response].`;
+             }
+         } else {
+             speakOutput = "I'm not sure what aspect you'd like to know about. Could you tell me, like safety or emissions?";
+         }
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -202,9 +201,9 @@ const skill = Alexa.SkillBuilders.custom()
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
         SessionEndedRequestHandler,
-        IntentReflectorHandler,
         nuke_itHandler,
-        ExplainNuclearBenefitIntentHandler)
+        ExplainNuclearBenefitIntentHandler,
+        IntentReflectorHandler)
     .addErrorHandlers(ErrorHandler)
     .create(); // Change .lambda() to .create()
 const adapter = new ExpressAdapter(skill, false, false);
