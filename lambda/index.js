@@ -13,7 +13,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
+        const speakOutput = 'Welcome to the Atomic Energy skill, I can tell you more about the benefits of nuclear energy, provide info on the climate clock, or suggest ways you can help.';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -21,70 +21,6 @@ const LaunchRequestHandler = {
             .getResponse();
     }
 };
-
-const HelloWorldIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = 'Hello World!';
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-            .getResponse();
-    }
-};
-const nuke_itHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'nuke_itIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = 'nuke it';
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-            .getResponse();
-    }
-};
-const ExplainNuclearBenefitIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ExplainNuclearBenefitIntent';
-    },
-    handle(handlerInput) {
-        // Retrieve the slot value
-        const positiveAspect = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Positive_Aspect');
-        let speakOutput = "Time to blow your mind about " + positiveAspect;
-
-
-         if (positiveAspect) {
-             // Custom responses based on the slot value
-             switch (positiveAspect.toLowerCase()) {
-                case 'safety':
-                     speakOutput = 'Nuclear energy is one of the safest forms of energy production, with rigorous safety standards.';
-                     break;
-                 case 'emissions':
-                     speakOutput = 'Nuclear power emits zero carbon emissions during operation, making it environmentally friendly.';
-                     break;
-                 // Add more cases as needed for other slot values
-                 default:
-                     speakOutput = `Here's what I know about ${positiveAspect}: [Insert your detailed response].`;
-             }
-         } else {
-             speakOutput = "I'm not sure what aspect you'd like to know about. Could you tell me, like safety or emissions?";
-         }
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
-    }
-};
-
-
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -92,11 +28,94 @@ const HelpIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'You can say hello to me! How can I help?';
+        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        const currentItem = sessionAttributes.Positive_Aspect || 'none';
+
+        const speakOutput = `This skill intends to help reduce the misinformation around nuclear energy. Currently, you have selected ${currentItem}. You can ask me about efficiency, emissions, and safety, check the climate clock, or ask me for ways you can help.`;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(speakOutput)
+            .reprompt('What would you like to do?')
+            .getResponse();
+    }
+};
+
+const ExplainNuclearBenefitIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ExplainNuclearBenefitIntent';
+    },
+    handle(handlerInput) {
+        const listItem = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Positive_Aspect');
+        let speakOutput;
+
+        // Provide different responses based on the selected Positive_Aspect value
+        if (listItem === 'efficiency') {
+            speakOutput = 'Nuclear energy is highly efficient, with a small amount of uranium producing a large amount of energy. This efficiency reduces the need for frequent resource extraction.';
+        } else if (listItem === 'emissions') {
+            speakOutput = 'Nuclear energy produces electricity with zero carbon emissions, making it a key player in combating climate change. Makes you wonder who has fed us all of this misinformation...';
+        } else if (listItem === 'safety') {
+            speakOutput = 'Modern nuclear power plants are built with multiple safety systems to prevent accidents. They are among the safest forms of energy generation when managed properly. In fact, nuclear energy results in 0.3 deaths per terawatt-hour. Compare that to oil, which racks up nearly 20 deaths per terawatt-hour.';
+        } else {
+            // Handle unexpected or unrecognized slot values
+            speakOutput = 'I\'m sorry, I didn\'t understand that. Please ask about efficiency, emissions, or safety.';
+        }
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt('What else would you like to learn about nuclear energy?')
+            .getResponse();
+    }
+};
+
+const ClimateClockIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ClimateClock';
+    },
+    handle(handlerInput) {
+        const speakOutput = `The Climate Clock shows the time left to limit global warming to 1.5 degrees Celsius. This highlights the urgent need to reduce carbon emissions. Nuclear energy plays a vital role in achieving this goal. Would you like to learn how?`;
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt('Would you like to know more about nuclear energy’s role in combating climate change?')
+            .getResponse();
+    }
+};
+
+const MakeDifferenceIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'MakeDifference';
+    },
+    handle(handlerInput) {
+        const actions = "You can make a difference by learning more about nuclear energy, sharing accurate information, and supporting policies that promote clean energy solutions. You can also join organizations that advocate for sustainable energy initiatives.";
+        const speakOutput = `${actions} How else can I assist you today?`;
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt('What would you like to learn next?')
+            .getResponse();
+    }
+};
+
+
+const CheckStatsIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'CheckStats';
+    },
+    handle(handlerInput) {
+        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        sessionAttributes.usageCount = (sessionAttributes.usageCount || 0) + 1;
+
+        handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+        const speakOutput = `You have used Atomic Energy ${sessionAttributes.usageCount} times. Keep it up!`;
+
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt('What would you like to do next?')
             .getResponse();
     }
 };
@@ -193,18 +212,20 @@ const ErrorHandler = {
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
  * defined are included below. The order matters - they're processed top to bottom 
  * */
-const skill = Alexa.SkillBuilders.custom()
+exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
         HelpIntentHandler,
+        ExplainNuclearBenefitIntentHandler,
+        ClimateClockIntentHandler,
+        MakeDifferenceIntentHandler,
+        CheckStatsIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
         SessionEndedRequestHandler,
-        nuke_itHandler,
-        ExplainNuclearBenefitIntentHandler,
         IntentReflectorHandler)
-    .addErrorHandlers(ErrorHandler)
+    .addErrorHandlers(
+        ErrorHandler)
     .create(); // Change .lambda() to .create()
 const adapter = new ExpressAdapter(skill, false, false);
 const app = express();
